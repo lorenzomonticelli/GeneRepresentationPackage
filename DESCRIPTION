@@ -1,0 +1,41 @@
+Package: GeneRepresentationPackage
+Type: Package
+Title: Gene Representation Package
+Version: 0.1.0
+Authors@R:
+    person(given = "Lorenzo",
+           family = "Monticelli",
+           role = c("aut", "cre"),
+           email = "lorenzo1.monticelli@mail.polimi.it",
+           comment = c(ORCID = "0009-0001-6390-6913"))
+Description: GeneRepresentationPackage provides a set of S4 classes for different gene types. 
+	These include protein-coding genes, long non-coding RNA genes and microRNA genes.
+	They all inherit from a virtual gene class that represents general gene characteristics.
+	Each gene object contains comprehensive information, including an ID (e.g., Ensembl ID or NCBI gene ID),
+	HUGO symbol, gene name, description, gene structure (represented as a GRanges object with chromosome,
+	start, end and strand) and specific gene products (e.g., protein ID and sequence, lncRNA ID and RNA sequence
+	or microRNA ID and seed sequence). This structure distinguishes between information common to all genes
+	and details unique to specific gene types. Constructor functions and accessor functions provide a user-friendly
+	interface for interacting with gene data. The package also includes a class-specific function,
+	`lengthProduct(gene)`, which returns the length of a gene's product,
+	such as the encoded protein for protein-coding genes, the RNA sequence for lncRNA genes
+	or the final miRNA for microRNA genes.
+License: GPL (>=2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: R (>= 4.4.0)
+Imports:
+    GenomicRanges,
+    IRanges,
+    methods
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    roxygen2
+VignetteBuilder: knitr
+biocViews: Genetics, Transcriptomics, DataRepresentation
+Config/testthat/edition: 3
+URL: https://github.com/lorenzomonticelli/GeneRepresentationPackage
+BugReports: https://github.com/lorenzomonticelli/GeneRepresentationPackage/issues

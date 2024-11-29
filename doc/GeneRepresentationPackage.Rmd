@@ -1,0 +1,191 @@
+---
+title: "GeneRepresentationPackage: A Guide"
+author: "Lorenzo Monticelli"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GeneRepresentationPackage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+```{r setup}
+library(GenomicRanges)
+library(GeneRepresentationPackage)
+```
+
+# Introduction
+
+The `GeneRepresentationPackage` provides a set of S4 classes for protein-coding
+genes, long non-coding RNAs (lncRNAs), and microRNAs (miRNAs). These classes are
+inherited from a virtual `Gene` class, which includes common attributes such as
+ID, symbol, name, description, and genomic structure.
+
+------------------------------------------------------------------------
+
+# Creating Gene Objects
+
+The package includes constructors for creating instances of `ProteinCodingGene`,
+`lncRNAGene`, and `miRNAGene`. These objects include specialized attributes
+for each gene type.
+
+# Creating a New Protein-Coding Gene Object
+
+A `ProteinCodingGene` object inherits all attributes of the `Gene` class, 
+along with `proteinID` and `proteinSequence`.
+
+### Example: Protein-Coding Gene
+
+```{r}
+# Define a GRanges object for genomic structure
+tp53_structure <- GRanges(
+    seqnames = "chr17",
+    ranges = IRanges(start = 7668402, end = 7687550),
+    strand = "+"
+)
+
+# Create a ProteinCodingGene object
+tp53 <- createProteinCodingGene(
+    id = "ENSG000001",
+    symbol = "TP53",
+    name = "Tumor Protein",
+    description = "Tumor suppressor gene",
+    structure = tp53_structure,
+    protein_id = "P04637",
+    protein_sequence = "MVLSPADKTNVKAAWG"
+)
+print(tp53)
+```
+
+------------------------------------------------------------------------
+
+# Creating a New Long Non-Coding RNA Object
+
+A `lncRNAGene` object inherits all attributes of the `Gene` class, 
+along with `lncRNAID` and `RNASequence`.
+
+### Example: Long Non-Coding RNA Gene
+
+```{r}
+# Define a GRanges object for genomic structure
+malat1_structure <- GRanges(
+    seqnames = "chr11",
+    ranges = IRanges(start = 65497758, end = 65503100),
+    strand = "+"
+)
+
+# Create a lncRNAGene object
+malat1 <- createLncRNAGene(
+    id = "ENSG000002",
+    symbol = "MALAT1",
+    name = "Metastasis Associated Lung Adenocarcinoma Transcript 1",
+    description = "lncRNA associated with metastasis",
+    structure = malat1_structure,
+    lncRNA_id = "NONHSAG000002",
+    RNA_sequence = "AUGCUACGUGA"
+)
+print(malat1)
+```
+
+------------------------------------------------------------------------
+
+# Creating a New MicroRNA Object
+
+A `miRNAGene` object inherits all attributes of the `Gene` class, 
+along with `miRNAID` and `seedSequence`.
+
+### Example: MicroRNA Gene
+
+```{r}
+# Define a GRanges object for genomic structure
+mir21_structure <- GRanges(
+    seqnames = "chr21",
+    ranges = IRanges(start = 25575833, end = 25575902),
+    strand = "-"
+)
+
+# Create a miRNAGene object
+mir21 <- createMiRNAGene(
+    id = "ENSG000003",
+    symbol = "MIR21",
+    name = "microRNA 21",
+    description = "A microRNA associated with cancer",
+    structure = mir21_structure,
+    miRNA_id = "MI0000077",
+    seed_sequence = "AGCUUA"
+)
+print(mir21)
+```
+
+------------------------------------------------------------------------
+
+# Accessor Methods
+
+The package provides accessor methods to retrieve or modify attributes,
+such as `symbol`, `structure`, and `name`.
+
+## Getting the Symbol:
+
+```{r}
+symbol(tp53)
+```
+
+## Setting the Symbol:
+
+```{r}
+symbol(tp53) <- "TP53_updated"
+symbol(tp53)
+```
+
+## Accessing the Genomic Structure:
+
+```{r}
+structure(tp53)
+```
+
+## Setting a New Genomic Structure:
+
+```{r}
+new_structure <- GRanges(
+    seqnames = "chr1",
+    ranges = IRanges(start = 1000, end = 5000),
+    strand = "-"
+)
+structure(tp53) <- new_structure
+structure(tp53)
+```
+
+------------------------------------------------------------------------
+
+# Computing Product Length
+
+The `lengthProduct` method calculates the length of a gene's product.
+
+## Example with a Protein-Coding Gene
+
+```{r}
+lengthProduct(tp53)
+```
+
+## Example with a lncRNA
+
+```{r}
+lengthProduct(malat1)
+```
+
+## Example with a microRNA
+
+```{r}
+lengthProduct(mir21)
+```
+
+```{r session-info}
+sessionInfo()
+```
